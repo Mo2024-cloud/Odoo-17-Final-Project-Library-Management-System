@@ -23,7 +23,8 @@
                 <sheet>
                     <header>
                         <button name="action_draft" type="object" class="btn-success" string="Set To Draft"
-                                invisible="status == 'draft' or status == 'borrowed' or status == 'overdue'"/>
+                                invisible="status == 'draft' or status == 'borrowed' or status == 'overdue'"
+                        groups="library_management.library_manager_group"/>
                         <button name="action_borrowed" type="object" class="btn-primary" string="Set To Borrowed"
                                 invisible="status != 'draft'"/>
                         <button name="action_returned" type="object" class="btn-info" string="Set To Returned"
@@ -68,7 +69,7 @@
 
 
     <record id="library_loan_action" model="ir.actions.act_window">
-        <field name="name">library loan action</field>
+        <field name="name">Library Loan</field>
         <field name="res_model">library.loan</field>
     </record>
 
