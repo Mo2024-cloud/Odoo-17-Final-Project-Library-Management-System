@@ -1,0 +1,25 @@
+<odoo>
+    <menuitem
+    id="library_management_root_menu"
+    name="Library Management System"/>
+
+    <menuitem
+    id="library_book_menu"
+    name="Library Book"
+    parent="library_management_root_menu"/>
+
+    <menuitem
+    id="library_loan_menu"
+    name="Library Loan"
+    parent="library_management_root_menu"/>
+
+    <menuitem
+    id="res_partner_menu"
+    name="Res Partner"
+    parent="library_loan_menu"/>
+
+    <menuitem
+    id="library_management_dashboard_menu"
+    name="Dashboard"
+    parent="library_book_menu"/>
+</odoo>

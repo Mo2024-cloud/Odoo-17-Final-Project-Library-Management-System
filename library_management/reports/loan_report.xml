@@ -1,0 +1,69 @@
+<odoo>
+    <record id="loan_report" model="ir.actions.report">
+        <field name="name">Loan Report</field>
+        <field name="model">library.loan</field>
+        <field name="report_type">qweb-pdf</field>
+<!--        The Name Of ref="if the model consets of two words Seprate it using _ not . "-->
+        <field name="binding_model_id" ref="model_library_loan"/>
+        <field name="binding_type">report</field>
+        <field name="report_name">library_management.loan_report_template</field>
+    </record>
+
+    <template id="loan_report_template">
+        <t t-call="web.html_container">
+            <t t-call="web.basic_layout">
+                <t t-foreach="docs" t-as="o">
+                    <h1>Loan Report</h1>
+                    <style>
+                        table {
+                            width: 100%;
+                            border-collapse: collapse;
+                            margin-top: 20px;
+                            font-family: Arial, sans-serif;
+                            border: 2px solid #333;  /* Darker outer border */
+                        }
+                        table th {
+                            background-color: #2c3e50;
+                            color: white;
+                            padding: 12px;
+                            text-align: center;
+                            font-size: 16px;
+                            border-bottom: 2px solid #333;  /* Darker border */
+                        }
+                        table td {
+                            padding: 10px;
+                            border: 1px solid #333;  /* Darker borders for all cells */
+                        }
+                        table tbody td:nth-child(1),
+                        table tbody td:nth-child(3) {
+                            font-weight: bold;
+                            width: 20%;
+                            background-color: #f8f9fa;  /* Light gray background for label cells */
+                        }
+                        table tbody td:nth-child(2),
+                        table tbody td:nth-child(4) {
+                            width: 30%;
+                        }
+                        table tbody tr:nth-child(even) {
+                            background-color: #f8f9fa;  /* Zebra striping for rows */
+                        }
+                    </style>
+                    <table>
+                        <thead>
+                            <th colspan="2">Borrowed Book</th>
+                            <th colspan="2">Member Names</th>
+                        </thead>
+                        <tbody>
+                            <td>Book Name</td>
+                            <td><t t-esc="o.book_id.title"/></td>
+                            <td>Member Name</td>
+                            <td><t t-esc="o.partner_id.display_name"/></td>
+                        </tbody>
+                    </table>
+                </t>
+            </t>
+        </t>
+    </template>
+
+
+</odoo>

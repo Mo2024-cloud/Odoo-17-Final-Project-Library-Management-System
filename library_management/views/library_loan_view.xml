@@ -1,0 +1,95 @@
+<odoo>
+    <!--This Record For View Objects (Tree View) -->
+<record id="library_loan_view_tree" model="ir.ui.view">
+    <field name="name">library loan tree</field>
+    <field name="model">library.loan</field>
+    <field name="arch" type="xml">
+        <tree decoration-danger="(status == 'overdue')">
+            <field name="book_id" string='Book'/>
+            <field name="partner_id" string='Partner'/>
+            <field name="borrow_date" string='Borrow Date'/>
+            <field name="return_date" string='Return Date'/>
+            <field name="status" string='Status'/>
+        </tree>
+    </field>
+</record>
+
+    <!--This Form For Adding New Object Or (Create) -->
+    <record id="library_loan_view_form" model="ir.ui.view">
+        <field name="name">library loan form</field>
+        <field name="model">library.loan</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <header>
+                        <button name="action_draft" type="object" class="btn-success" string="Set To Draft"
+                                invisible="status == 'draft' or status == 'borrowed' or status == 'overdue'"/>
+                        <button name="action_borrowed" type="object" class="btn-primary" string="Set To Borrowed"
+                                invisible="status != 'draft'"/>
+                        <button name="action_returned" type="object" class="btn-info" string="Set To Returned"
+                                invisible="status == 'draft' or status == 'returned'"/>
+<!--                        <button name="action_overdue" type="object" class="btn-danger" string="Set To Overdue"-->
+<!--                                invisible="status == 'overdue' or status == 'draft' or status == 'returned'"/>-->
+                        <field name="status" widget="statusbar"/>
+                    </header>
+
+                    <group>
+                        <group string="General Info">
+                            <field name="book_id" string='Book'/>
+                            <field name="partner_id" string='Partner'/>
+                        </group>
+                        <group string="Additional Info">
+                            <field name="borrow_date" string='Borrow Date'/>
+                            <field name="return_date" string='Return Date'/>
+                        </group>
+                    </group>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+
+    <!-- Handling Search Using title Or author-->
+    <record id="loan_view_search" model="ir.ui.view">
+        <field name="name">loan search</field>
+        <field name="model">library.loan</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="book_id" string='Book'/>
+                <field name="partner_id" string='Partner'/>
+            </search>
+        </field>
+    </record>
+
+
+    <record id="library_loan_action" model="ir.actions.act_window">
+        <field name="name">library loan action</field>
+        <field name="res_model">library.loan</field>
+    </record>
+
+<!--Daily scheduled action to detect overdue loans-->
+    <record id="check_loan_overdue_date_cron" model="ir.cron">
+        <field name="name">Loan: Check overdue date</field>
+        <field name="model_id" ref="model_library_loan"/>
+        <field name="state">code</field>
+        <field name="code">model.check_overdue_loans_date()</field>
+        <field name="interval_number">1</field>
+        <field name="interval_type">days</field>
+        <field name="numbercall">-1</field>
+        <field name="active">True</field>
+    </record>
+
+
+
+<menuitem
+        id="library_loan_menu_item"
+        name="Library Loan"
+        parent="library_loan_menu"
+        action="library_loan_action"/>
+
+</odoo>

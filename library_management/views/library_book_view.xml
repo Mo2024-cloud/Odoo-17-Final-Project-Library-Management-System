@@ -1,0 +1,87 @@
+<odoo>
+    <!--This Record For View Objects (Tree View) -->
+<record id="library_book_view_tree" model="ir.ui.view">
+    <field name="name">library book tree</field>
+    <field name="model">library.book</field>
+    <field name="arch" type="xml">
+        <tree>
+            <field name="title" string='Title'/>
+            <field name="author" string='Author'/>
+            <field name="isbn" string='ISBN'/>
+            <field name="publication_year" string='Publication Year'/>
+            <field name="status"/>
+            <field name="loan_ids" string='Loan'/>
+            <field name="active"/>
+        </tree>
+    </field>
+</record>
+
+    <!--This Form For Adding New Object Or (Create) -->
+    <record id="library_book_view_form" model="ir.ui.view">
+        <field name="name">library book form</field>
+        <field name="model">library.book</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <widget name="web_ribbon" title="Archived" bg_color="text-bg-danger" invisible="active"/>
+                    <header>
+<!--                        <button name="action_available" type="object" class="btn-success" string="Set To Available"-->
+<!--                                invisible="status == 'available'"/>-->
+<!--                        <button name="action_borrowed" type="object" class="btn-danger" string="Set To Borrowed"-->
+<!--                                invisible="status == 'borrowed'"/>-->
+                        <field name="status" widget="statusbar"/>
+                    </header>
+                    <group>
+                        <group string="General Info">
+                            <field name="title" string='Title'/>
+                            <field name="author" string='Author'/>
+                            <field name="loan_ids" string='Loan' widget="many2many_tags"/>
+                        </group>
+                        <group string="Additional Info">
+                            <field name="isbn" string='ISBN'/>
+                            <field name="publication_year" string='Publication Year'/>
+                            <field name="active"/>
+                        </group>
+                    </group>
+
+                <!-- NoteBook Lines For More Information About Books       -->
+                    <notebook>
+                        <page string="Book">
+                            <field name="line_ids">
+                                <tree>
+                                    <field name="description"/>
+                                    <field name="price"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Handling Search Using title Or author-->
+    <record id="book_view_search" model="ir.ui.view">
+        <field name="name">book search</field>
+        <field name="model">library.book</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="title" string='Title'/>
+                <field name="author" string='Author'/>
+            </search>
+        </field>
+    </record>
+
+
+    <record id="library_book_action" model="ir.actions.act_window">
+        <field name="name">library book action</field>
+        <field name="res_model">library.book</field>
+    </record>
+<menuitem
+        id="library_book_menu_item"
+        name="Library Book"
+        parent="library_book_menu"
+        action="library_book_action"/>
+
+</odoo>
